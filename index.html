@@ -64,7 +64,8 @@
 
     var status = "" // 기본 상태 up 상태
     var count = 0 // 갯수 기본 0개
-
+    var wrsound = new Audio('sound/pose.mp3');
+    
     async function predict() {
         // Prediction #1: run input through posenet
         // estimatePose can take in an image, video or canvas html element
@@ -111,8 +112,10 @@
         } else if(prediction[1].probability.toFixed(2) == 1.00) { // down이 1일 경우
             status = "down" // 상태를 down으로
         } else if(prediction[2].probability.toFixed(2) == 1.00) { // wrong이 1일 경우
-            var sound = new Audio('sound/pose.mp3');
-            sound.play();
+            if (wrsound.playing == true) { // 재생중이면 재생 안함
+            } else {
+                wrsound.play(); // 재생중이 아니면 재생
+            }
         }
 
         // finally draw the poses
